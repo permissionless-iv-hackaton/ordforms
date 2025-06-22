@@ -9,8 +9,11 @@ const Home: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('/api/submission/verify-voucher', { code });
-      if (response.data.valid) navigate('/form');
+    const { data } = await axios.post<{ valid: boolean }>(
+      '/api/submission/verify-voucher',
+      { code }
+    );
+    if (data.valid) navigate('/form');
       else setError('Invalid voucher');
     } catch {
       setError('Invalid voucher');
