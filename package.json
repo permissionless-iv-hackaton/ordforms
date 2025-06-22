@@ -1,0 +1,45 @@
+{
+  "name": "ordforms",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "node dist/server/index.js",
+    "build:client": "webpack --config webpack.config.js",
+    "build:server": "tsc -p server",
+    "build": "npm run build:client && npm run build:server",
+    "dev:client": "webpack serve --config webpack.config.js --mode development",
+    "dev:server": "nodemon --watch server/src --exec ts-node server/src/index.ts",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "firebase-admin": "^11.10.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.4.2",
+    "@types/react": "^18.2.12",
+    "@types/react-dom": "^18.2.5",
+    "concurrently": "^8.2.0",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "nodemon": "^2.0.22",
+    "sass": "^1.65.2",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "ts-loader": "^9.4.4",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}
