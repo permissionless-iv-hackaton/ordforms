@@ -1,0 +1,33 @@
+{
+  "mode": "development",
+  "entry": "./client/src/App.tsx",
+  "output": {
+    "path": "./dist/client",
+    "filename": "bundle.js"
+  },
+  "resolve": {
+    "extensions": [".tsx", ".ts", ".js"]
+  },
+  "module": {
+    "rules": [
+      {
+        "test": /\.tsx?$/,
+        "use": "ts-loader",
+        "exclude": /node_modules/
+      },
+      {
+        "test": /\.scss$/,
+        "use": ["style-loader", "css-loader", "sass-loader"]
+      }
+    ]
+  },
+  "devServer": {
+    "static": {
+      "directory": "./dist/client"
+    },
+    "historyApiFallback": true,
+    "proxy": {
+      "/api": "http://localhost:5000"
+    }
+  }
+}
