@@ -1,11 +1,10 @@
-import { Request, Response } from 'express';
-import { db } from '../services/firebaseService';
-import { generateZapriteInvoice } from '../services/zapriteService';
-import { createPaypalInvoice } from '../services/paypalService';
-import { estimateCost, inscribeHash } from '../services/ordinalsService';
-import { pushOpReturn } from '../services/opReturnService';
+const { db } = require('../services/firebaseService');
+const { generateZapriteInvoice } = require('../services/zapriteService');
+const { createPaypalInvoice } = require('../services/paypalService');
+const { estimateCost, inscribeHash } = require('../services/ordinalsService');
+const { pushOpReturn } = require('../services/opReturnService');
 
-export const linkWallet = async (req: Request, res: Response) => {
+const linkWallet = async (req, res) => {
   const { userId, pubkey } = req.body;
   try {
     await db.collection('wallets').doc(userId).set({ pubkey });
@@ -15,7 +14,7 @@ export const linkWallet = async (req: Request, res: Response) => {
   }
 };
 
-export const storeOrdinalsAddress = async (req: Request, res: Response) => {
+const storeOrdinalsAddress = async (req, res) => {
   const { userId, ordAddress } = req.body;
   try {
     await db.collection('ordinals').doc(userId).set({ ordAddress });
@@ -25,7 +24,7 @@ export const storeOrdinalsAddress = async (req: Request, res: Response) => {
   }
 };
 
-export const initiateZapritePayment = async (req: Request, res: Response) => {
+const initiateZapritePayment = async (req, res) => {
   const { amount, currency, metadata } = req.body;
   try {
     const invoice = await generateZapriteInvoice(amount, currency, metadata);
@@ -35,7 +34,7 @@ export const initiateZapritePayment = async (req: Request, res: Response) => {
   }
 };
 
-export const initiatePaypalPayment = async (req: Request, res: Response) => {
+const initiatePaypalPayment = async (req, res) => {
   const { amount, currency } = req.body;
   try {
     const link = await createPaypalInvoice(amount, currency);
@@ -45,7 +44,7 @@ export const initiatePaypalPayment = async (req: Request, res: Response) => {
   }
 };
 
-export const getInscriptionCost = async (req: Request, res: Response) => {
+const getInscriptionCost = async (req, res) => {
   const { hash } = req.body;
   try {
     const cost = await estimateCost(Buffer.from(hash, 'hex'));
@@ -55,7 +54,7 @@ export const getInscriptionCost = async (req: Request, res: Response) => {
   }
 };
 
-export const inscribeSubmission = async (req: Request, res: Response) => {
+const inscribeSubmission = async (req, res) => {
   const { hash, parent } = req.body;
   try {
     const order = await inscribeHash(hash, parent);
@@ -65,7 +64,7 @@ export const inscribeSubmission = async (req: Request, res: Response) => {
   }
 };
 
-export const pushOpReturnHash = async (req: Request, res: Response) => {
+const pushOpReturnHash = async (req, res) => {
   const { hash } = req.body;
   try {
     const tx = await pushOpReturn(hash);
@@ -75,3 +74,12 @@ export const pushOpReturnHash = async (req: Request, res: Response) => {
   }
 };
 
+module.exports = {
+  linkWallet,
+  storeOrdinalsAddress,
+  initiateZapritePayment,
+  initiatePaypalPayment,
+  getInscriptionCost,
+  inscribeSubmission,
+  pushOpReturnHash
+};

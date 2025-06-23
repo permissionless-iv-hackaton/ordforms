@@ -1,12 +1,13 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import session from 'express-session';
-import passport from 'passport';
-import { Strategy as GitHubStrategy } from 'passport-github2';
-import authRoutes from './routes/authRoutes';
-import submissionRoutes from './routes/submissionRoutes';
-import bitcoinRoutes from './routes/bitcoinRoutes';
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const session = require('express-session');
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
+
+const authRoutes = require('./routes/authRoutes');
+const submissionRoutes = require('./routes/submissionRoutes');
+const bitcoinRoutes = require('./routes/bitcoinRoutes');
 
 dotenv.config();
 
@@ -18,19 +19,19 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID || '',
       clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
-      callbackURL: process.env.GITHUB_CALLBACK_URL || '/api/auth/github/callback',
+      callbackURL: process.env.GITHUB_CALLBACK_URL || '/api/auth/github/callback'
     },
-    (_accessToken: string, _refreshToken: string, profile: any, done: (err: any, user?: any) => void) => {
+    (_accessToken, _refreshToken, profile, done) => {
       done(null, profile);
     }
   )
 );
 
-passport.serializeUser((user: any, done: (err: any, id?: unknown) => void) => {
+passport.serializeUser((user, done) => {
   done(null, user);
 });
 
-passport.deserializeUser((obj: any, done: (err: any, user?: unknown) => void) => {
+passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
@@ -40,7 +41,7 @@ app.use(
   session({
     secret: 'ordforms-secret',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false
   })
 );
 app.use(passport.initialize());

@@ -1,13 +1,13 @@
-import express from 'express';
-import {
+const express = require('express');
+const {
   linkWallet,
   storeOrdinalsAddress,
   initiateZapritePayment,
   initiatePaypalPayment,
   getInscriptionCost,
   inscribeSubmission,
-  pushOpReturnHash,
-} from '../controllers/bitcoinController';
+  pushOpReturnHash
+} = require('../controllers/bitcoinController');
 
 const router = express.Router();
 
@@ -19,5 +19,4 @@ router.post('/ordinals/cost', getInscriptionCost);
 router.post('/ordinals/inscribe', inscribeSubmission);
 router.post('/opreturn/push', pushOpReturnHash);
 
-export default router;
-
+module.exports = router;

@@ -1,6 +1,6 @@
-import express from 'express';
-import passport from 'passport';
-import { db } from '../services/firebaseService';
+const express = require('express');
+const passport = require('passport');
+const { db } = require('../services/firebaseService');
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ router.get(
   '/github/callback',
   passport.authenticate('github', { failureRedirect: '/' }),
   async (req, res) => {
-    const user: any = req.user;
+    const user = req.user;
     if (user) {
       await db.collection('users').doc(user.id).set(
         { username: user.username },
@@ -23,5 +23,4 @@ router.get(
   }
 );
 
-export default router;
-
+module.exports = router;

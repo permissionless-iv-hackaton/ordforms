@@ -1,8 +1,8 @@
-import { Op, DetachedTimestampFile } from 'opentimestamps';
-import crypto from 'crypto';
-import fs from 'fs';
+const { Op, DetachedTimestampFile } = require('opentimestamps');
+const crypto = require('crypto');
+const fs = require('fs');
 
-export const createTimestamp = async (content: Buffer) => {
+const createTimestamp = async (content) => {
   const hash = crypto.createHash('sha256').update(content).digest();
   const ts = new DetachedTimestampFile(hash);
   await Op.getDefaultCalendar().stamp(ts);
@@ -15,3 +15,5 @@ export const createTimestamp = async (content: Buffer) => {
   fs.writeFileSync(path, Buffer.from(ots));
   return { hash: hash.toString('hex'), path };
 };
+
+module.exports = { createTimestamp };

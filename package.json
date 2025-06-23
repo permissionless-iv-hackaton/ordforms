@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/server/index.js",
+    "start": "node server/index.js",
     "build:client": "tsc -p client",
-    "build:server": "tsc -p server",
-    "build": "npm run build:client && npm run build:server",
+    "build": "npm run build:client",
     "dev:client": "tsc -w -p client",
-    "dev:server": "nodemon --watch server/src --exec ts-node server/src/index.ts",
+    "dev:server": "nodemon server/index.js",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""
   },
   "dependencies": {

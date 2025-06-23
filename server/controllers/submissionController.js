@@ -1,14 +1,13 @@
-import { Request, Response } from 'express';
-import { db, storage } from '../services/firebaseService';
-import fs from 'fs';
-import pdf from 'pdf-parse';
-import { createTimestamp } from '../services/timestampService';
-import crypto from 'crypto';
-import { estimateCost } from '../services/ordinalsService';
+const { db, storage } = require('../services/firebaseService');
+const fs = require('fs');
+const pdf = require('pdf-parse');
+const { createTimestamp } = require('../services/timestampService');
+const crypto = require('crypto');
+const { estimateCost } = require('../services/ordinalsService');
 
 const VALID_VOUCHER = 'PERMISSIONLESS';
 
-export const verifyVoucher = (req: Request, res: Response) => {
+const verifyVoucher = (req, res) => {
   const { code } = req.body;
   if (code === VALID_VOUCHER) {
     return res.status(200).json({ valid: true });
@@ -16,28 +15,28 @@ export const verifyVoucher = (req: Request, res: Response) => {
   return res.status(401).json({ valid: false, message: 'Invalid voucher' });
 };
 
-export const parseResume = async (req: Request, res: Response) => {
+const parseResume = async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file' });
   const buffer = fs.readFileSync(req.file.path);
   const data = await pdf(buffer);
   const text = data.text;
-  const lines = text.split(/\n/).map((l: string) => l.trim());
+  const lines = text.split(/\n/).map((l) => l.trim());
   const [firstLine] = lines;
   const [name, surname] = firstLine.split(' ');
   return res.json({ name, surname });
 };
 
-export const createSubmission = async (req: Request, res: Response) => {
+const createSubmission = async (req, res) => {
   try {
     const data = req.body;
-    let fileUrl: string | undefined;
-    let tsHash: string | undefined;
-    let contentHash: string | undefined;
-    let cost: number | undefined;
+    let fileUrl;
+    let tsHash;
+    let contentHash;
+    let cost;
 
     if (req.file) {
       const upload = await storage.upload(req.file.path, {
-        destination: `documents/${req.file.originalname}`,
+        destination: `documents/${req.file.originalname}`
       });
       fileUrl = `gs://${upload[0].bucket.name}/${upload[0].name}`;
 
@@ -49,7 +48,6 @@ export const createSubmission = async (req: Request, res: Response) => {
       const hash = crypto.createHash('sha256').update(buffer).digest('hex');
       contentHash = hash;
       cost = await estimateCost(Buffer.from(hash, 'hex'));
-
     }
 
     const docRef = await db.collection('submissions').add({
@@ -58,7 +56,7 @@ export const createSubmission = async (req: Request, res: Response) => {
       tsHash,
       contentHash,
       cost,
-      createdAt: new Date().toISOString(),
+      createdAt: new Date().toISOString()
     });
     res.status(201).json({ success: true, id: docRef.id, cost, hash: contentHash });
   } catch (err) {
@@ -66,7 +64,7 @@ export const createSubmission = async (req: Request, res: Response) => {
   }
 };
 
-export const getSubmission = async (req: Request, res: Response) => {
+const getSubmission = async (req, res) => {
   try {
     const { id } = req.params;
     const doc = await db.collection('submissions').doc(id).get();
@@ -79,3 +77,9 @@ export const getSubmission = async (req: Request, res: Response) => {
   }
 };
 
+module.exports = {
+  verifyVoucher,
+  parseResume,
+  createSubmission,
+  getSubmission
+};

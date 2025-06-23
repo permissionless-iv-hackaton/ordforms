@@ -5,7 +5,7 @@ This is a fullstack application for handling Web3-integrated tender and grant su
 ## 🔧 Tech Stack
 
 - Frontend: React + TypeScript + Vite + Sass
-- Backend: Node.js + Express + Firebase + Zaprite + GitHub OAuth
+- Backend: Node.js (JavaScript) + Express + Firebase + Zaprite + GitHub OAuth
 - Features: Voucher-gated access, resume & project uploads, wallet integration, project hash timestamping, Ordinals logo inscription
 
 ---
