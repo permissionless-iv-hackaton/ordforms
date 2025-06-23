@@ -4,7 +4,7 @@ This is a fullstack application for handling Web3-integrated tender and grant su
 
 ## 🔧 Tech Stack
 
-- Frontend: React + TypeScript + Vite + Sass
+- Frontend: React + TypeScript + Webpack + Sass
 - Backend: Node.js (JavaScript) + Express + Firebase + Zaprite + GitHub OAuth
 - Features: Voucher-gated access, resume & project uploads, wallet integration, project hash timestamping, Ordinals logo inscription
 
@@ -14,8 +14,6 @@ This is a fullstack application for handling Web3-integrated tender and grant su
 
 ### Backend
 ```bash
-cd server
-cp .env.example .env
 npm install
 npm run dev
 ```
@@ -25,12 +23,10 @@ For GitHub OAuth, also set `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` and `GITHU
 
 ### Frontend
 ```bash
-cd client
-npm install
 npm run dev
 ```
 
-The frontend uses Vite and proxies `/api` to `http://localhost:5000`.
+The frontend uses Webpack Dev Server and proxies `/api` to `http://localhost:5000`.
 
 After connecting your GitHub account and Xverse wallet, you can inscribe using
 OrdinalsBot or select an existing inscription. Payments are handled via Bitcoin,

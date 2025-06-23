@@ -1,8 +1,10 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const mode = process.env.NODE_ENV || 'development';
+
 module.exports = {
-  mode: 'development',
+  mode,
   entry: './client/src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist', 'client'),
@@ -25,6 +27,7 @@ module.exports = {
       },
     ],
   },
+  devtool: mode === 'development' ? 'inline-source-map' : false,
   plugins: [
     new HtmlWebpackPlugin({
       template: './client/index.html',
@@ -35,6 +38,7 @@ module.exports = {
       directory: path.resolve(__dirname, 'dist', 'client'),
     },
     historyApiFallback: true,
+    open: true,
     proxy: {
       '/api': 'http://localhost:5000',
     },

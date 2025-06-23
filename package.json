@@ -4,9 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start": "node server/index.js",
-    "build:client": "tsc -p client",
+    "build:client": "webpack --config webpack.config.js --mode production",
     "build": "npm run build:client",
-    "dev:client": "tsc -w -p client",
+    "dev:client": "webpack serve --config webpack.config.js --mode development",
     "dev:server": "nodemon server/index.js",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""
   },
@@ -53,7 +53,6 @@
     "semver": "^7.5.4",
     "style-loader": "^3.3.3",
     "ts-loader": "^9.4.4",
-    "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
     "webpack": "^5.89.0",
     "webpack-cli": "^5.1.4",
