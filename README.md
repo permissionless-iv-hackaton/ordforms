@@ -29,7 +29,7 @@ npm install
 npm run dev
 ```
 
-The frontend uses Vite and proxies `/api` to `http://localhost:5000`.
+The frontend uses Vite and proxies `/api` to `http://localhost:3000`.
 
 ---
 

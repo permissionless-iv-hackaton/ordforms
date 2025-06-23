@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import bucket from '../services/firebaseAdmin';
+import bucket from '../services/firebaseAdmin.js';
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });

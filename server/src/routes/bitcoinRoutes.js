@@ -3,7 +3,7 @@ import {
   linkWallet,
   storeOrdinalsAddress,
   initiateZapritePayment,
-} from '../controllers/bitcoinController';
+} from '../controllers/bitcoinController.js';
 
 const router = express.Router();
 

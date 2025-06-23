@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 const generateZapriteInvoice = async (amount, currency, metadata) => {
   const ZAPRITE_API_KEY = process.env.ZAPRITE_API_KEY;
@@ -18,4 +18,4 @@ const generateZapriteInvoice = async (amount, currency, metadata) => {
   return data;
 };
 
-module.exports = { generateZapriteInvoice };
+export default generateZapriteInvoice;

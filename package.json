@@ -1,14 +1,15 @@
 {
   "name": "ordforms",
   "version": "1.0.0",
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "start": "node dist/server/index.js",
     "build:client": "webpack --config webpack.config.js",
     "build:server": "tsc -p server",
     "build": "npm run build:client && npm run build:server",
-    "dev:client": "webpack serve --config webpack.config.js --mode development",
-    "dev:server": "nodemon --watch server/src --exec ts-node server/src/index.ts",
+    "dev:client": "cross-env SASS_DISABLE_DEPRECATION_WARNING=1 webpack serve --config webpack.config.js --mode development",
+    "dev:server": "nodemon --watch server/src --exec ts-node server/src/index.js",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""
   },
   "dependencies": {
@@ -32,6 +33,7 @@
     "@types/react": "^18.2.12",
     "@types/react-dom": "^18.2.5",
     "concurrently": "^8.2.0",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
     "nodemon": "^3.1.10",

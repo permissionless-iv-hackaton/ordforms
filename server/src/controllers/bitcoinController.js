@@ -1,6 +1,5 @@
-// import { Request, Response } from 'express';
-import { db } from '../services/firebaseAdmin';
-import { generateZapriteInvoice } from '../services/zapriteService';
+import db from '../services/firebaseAdmin.js';
+import  generateZapriteInvoice from '../services/zapriteService.js';
 
 export const linkWallet = async (req, res) => {
   const { userId, pubkey } = req.body;

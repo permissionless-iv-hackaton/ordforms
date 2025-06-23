@@ -1,5 +1,4 @@
-import { Request, Response } from 'express';
-import { db } from '../services/firebaseAdmin';
+import db from '../services/firebaseAdmin.js';
 
 const VALID_VOUCHER = 'PERMISSIONLESS';
 

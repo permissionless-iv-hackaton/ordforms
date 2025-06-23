@@ -1,5 +1,5 @@
 import express from 'express';
-import { verifyVoucher, createSubmission } from '../controllers/submissionController';
+import { verifyVoucher, createSubmission } from '../controllers/submissionController.js';
 
 const router = express.Router();
 
