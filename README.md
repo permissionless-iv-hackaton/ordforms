@@ -18,8 +18,10 @@ npm install
 npm run dev
 ```
 
-Ensure you set `ZAPRITE_API_KEY` and provide `firebase-adminsdk.json` from your Firebase console.
-For GitHub OAuth, also set `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` and `GITHUB_CALLBACK_URL`.
+Ensure you set `ZAPRITE_API_KEY`. Firebase credentials are required and can be
+provided through `firebase-adminsdk.json` or the
+`FIREBASE_SERVICE_ACCOUNT` environment variable. For GitHub OAuth, also set
+`GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` and `GITHUB_CALLBACK_URL`.
 
 ### Frontend
 ```bash
@@ -27,6 +29,7 @@ npm run dev
 ```
 
 The frontend uses Webpack Dev Server and proxies `/api` to `http://localhost:5000`.
+Webpack is configured via `webpack.config.json` at the project root.
 
 After connecting your GitHub account and Xverse wallet, you can inscribe using
 OrdinalsBot or select an existing inscription. Payments are handled via Bitcoin,
@@ -44,14 +47,14 @@ corresponding WIF key (`INTERNAL_BTC_WIF`) is required for OP_RETURN pushes.
 
 ## 🔐 Deployment
 
-### Frontend
-- Push `/client` folder to Vercel
-- Set environment variables if needed
-
-### Backend
-- Deploy `/server` to Render/Heroku
-- Add Firebase service account JSON
-- Add `.env` with Zaprite key
+### Frontend & Backend on Vercel
+- Install Vercel CLI and run `vercel` to deploy.
+- The build script outputs static files to `dist/client` and the Express API is served from `/api`.
+- Set the following environment variables in Vercel:
+  - `FIREBASE_SERVICE_ACCOUNT` – JSON string of your service account
+  - `FIREBASE_BUCKET` – Cloud Storage bucket name (optional)
+  - `ZAPRITE_API_KEY`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `GITHUB_CALLBACK_URL`
+  - `INTERNAL_BTC_WALLET` and any other secrets
 
 ---
 

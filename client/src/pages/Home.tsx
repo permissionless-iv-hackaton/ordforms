@@ -9,11 +9,11 @@ const Home: React.FC = () => {
 
   const handleSubmit = async () => {
     try {
-    const { data } = await axios.post<{ valid: boolean }>(
-      '/api/submission/verify-voucher',
-      { code }
-    );
-    if (data.valid) navigate('/form');
+      const { data } = await axios.post<{ valid: boolean }>(
+        '/api/submission/verify-voucher',
+        { code }
+      );
+      if (data.valid) navigate('/case');
       else setError('Invalid voucher');
     } catch {
       setError('Invalid voucher');
@@ -22,9 +22,8 @@ const Home: React.FC = () => {
 
   return (
     <div className="voucher-screen">
-      <a href="/case">Hackathon Case Study</a>
       <h1>Enter Voucher Code</h1>
-      <input value={code} onChange={(e) => setCode(e.target.value)} placeholder="PERMISSIONLESS" />
+      <input value={code} onChange={(e) => setCode(e.target.value)} />
       <button onClick={handleSubmit}>Access Form</button>
       {error && <p>{error}</p>}
     </div>

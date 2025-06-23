@@ -7,6 +7,9 @@ const { pushOpReturn } = require('../services/opReturnService');
 const linkWallet = async (req, res) => {
   const { userId, pubkey } = req.body;
   try {
+    if (!db) {
+      return res.status(503).json({ success: false, error: 'Firebase disabled' });
+    }
     await db.collection('wallets').doc(userId).set({ pubkey });
     res.status(200).json({ success: true });
   } catch (err) {
@@ -17,6 +20,9 @@ const linkWallet = async (req, res) => {
 const storeOrdinalsAddress = async (req, res) => {
   const { userId, ordAddress } = req.body;
   try {
+    if (!db) {
+      return res.status(503).json({ success: false, error: 'Firebase disabled' });
+    }
     await db.collection('ordinals').doc(userId).set({ ordAddress });
     res.status(200).json({ success: true });
   } catch (err) {
