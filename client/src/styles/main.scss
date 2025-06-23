@@ -26,3 +26,10 @@ button {
   border-radius: 20px;
   box-shadow: 0 0 10px #ffa500;
 }
+
+.case-study {
+  @extend .voucher-screen;
+}
+.form-page {
+  @extend .voucher-screen;
+}
