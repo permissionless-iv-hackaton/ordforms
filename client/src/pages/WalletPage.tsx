@@ -54,6 +54,13 @@ const WalletPage: React.FC = () => {
         placeholder="Ordinals address"
       />
       <button onClick={storeOrdinals}>Proceed to Timestamp</button>
+      <p>
+        Need an inscription? Follow the{' '}
+        <a href="https://github.com/ordinalsbot/ordinals-template-app" target="_blank" rel="noopener noreferrer">
+          OrdinalsBot template
+        </a>{' '}
+        or visit <a href="https://ordinalsbot.com/faq" target="_blank" rel="noopener noreferrer">support</a>.
+      </p>
     </div>
   );
 };

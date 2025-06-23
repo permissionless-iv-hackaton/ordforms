@@ -1,4 +1,7 @@
 node_modules
-/dist
+dist
 package-lock.json
-
+.env
+./server/src/services/serviceAccountKey.json
+webpack.config.json
+AGENTS.md

@@ -8,6 +8,8 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const authRoutes = require('./routes/authRoutes');
 const submissionRoutes = require('./routes/submissionRoutes');
 const bitcoinRoutes = require('./routes/bitcoinRoutes');
+const uploadRoutes = require('./routes/upload.js');
+
 
 dotenv.config();
 
@@ -51,6 +53,7 @@ app.use(passport.session());
 app.use('/api/auth', authRoutes);
 app.use('/api/submission', submissionRoutes);
 app.use('/api/bitcoin', bitcoinRoutes);
+app.use('/api', uploadRoutes);
 
 app.get('/', (_, res) => res.send('Permissionless Submission Backend Running'));
 

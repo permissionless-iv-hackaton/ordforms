@@ -1,29 +1,63 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const raw = require('./webpack.config.json');
-const { $schema, ...json } = raw;
 
-const config = {
-  ...json,
-  mode: process.env.NODE_ENV || json.mode || 'development',
-  entry: json.entry,
+module.exports = {
+  mode: 'development',
+  entry: './client/index.tsx',
   output: {
-    ...json.output,
-    path: path.resolve(__dirname, json.output.path)
+    path: path.resolve(__dirname, 'dist/client'),
+    filename: 'bundle.js',
+    clean: true,
   },
-  resolve: json.resolve,
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
   module: {
-    rules: json.module.rules.map(r => ({
-      ...r,
-      test: new RegExp(r.test),
-      exclude: r.exclude ? path.resolve(__dirname, r.exclude) : undefined
-    }))
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                quietDeps: true,
+                silenceDeprecations: ['legacy-js-api'],
+              },
+            },
+          },
+        ],
+      }
+    ],
   },
-  plugins: [new HtmlWebpackPlugin(json.plugins[0][1])],
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './client/index.html',
+    }),
+  ],
   devServer: {
-    ...json.devServer,
-    static: { directory: path.resolve(__dirname, json.devServer.static.directory) }
-  }
+    static: {
+      directory: path.resolve(__dirname, 'dist/client'),
+    },
+    host: 'localhost',
+    port: 8080,
+    hot: true,
+    open: true,
+    historyApiFallback: true,
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+      }
+    ]
+  },
+  devtool: 'inline-source-map',
 };
-
-module.exports = config;

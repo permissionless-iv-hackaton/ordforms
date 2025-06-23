@@ -8,37 +8,59 @@ const FormPage: React.FC = () => {
   const [nationality, setNationality] = useState('');
   const [gender, setGender] = useState('');
   const [file, setFile] = useState<File | null>(null);
-
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const githubLogin = () => {
     window.location.href = '/api/auth/github';
   };
 
   const parseFile = async (f: File) => {
-    const form = new FormData();
-    form.append("document", f);
-    const { data } = await axios.post<{ name?: string; surname?: string }>("/api/submission/parse", form);
-    if (data.name) setName(data.name);
-    if (data.surname) setSurname(data.surname);
+    try {
+      const form = new FormData();
+      form.append("document", f);
+      const { data } = await axios.post<{ name?: string; surname?: string }>("/api/submission/parse", form);
+      if (data.name) setName(data.name);
+      if (data.surname) setSurname(data.surname);
+    } catch (error) {
+      console.error('File parsing error:', error);
+      setError('Failed to parse file. Please check if it\'s a valid PDF.');
+    }
   };
 
   const handleFile = (f: File) => {
     setFile(f);
+    setError('');
     parseFile(f);
   };
 
-
   const handleSubmit = async () => {
-    if (!file) return alert('Select a document');
-    const form = new FormData();
-    form.append('name', name);
-    form.append('surname', surname);
-    form.append('dob', dob);
-    form.append('nationality', nationality);
-    form.append('gender', gender);
-    form.append('document', file);
-    const { data } = await axios.post<{ id: string }>('/api/submission/create', form);
-    window.location.href = `/wallet?id=${data.id}`;
+    if (!file) {
+      setError('Please select a document');
+      return;
+    }
+    
+    setLoading(true);
+    setError('');
+    
+    try {
+      const form = new FormData();
+      form.append('name', name);
+      form.append('surname', surname);
+      form.append('dob', dob);
+      form.append('nationality', nationality);
+      form.append('gender', gender);
+      form.append('document', file);
+      
+      const { data } = await axios.post<{ id: string }>('/api/submission/create', form);
+      window.location.href = `/wallet?id=${data.id}`;
+    } catch (error: any) {
+      console.error('Submission error:', error);
+      const errorMessage = error.response?.data?.error || error.message || 'Submission failed';
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -61,14 +83,10 @@ const FormPage: React.FC = () => {
         <option value="na">Prefer not to say</option>
       </select>
       <input type="file" onChange={(e) => handleFile(e.target.files?.[0] as File)} />
-      <button onClick={handleSubmit}>Submit</button>
-      <p>
-        Need an inscription? Follow the{' '}
-        <a href="https://github.com/ordinalsbot/ordinals-template-app" target="_blank" rel="noopener noreferrer">
-          OrdinalsBot template
-        </a>{' '}
-        or visit <a href="https://support.ordinalsbot.com" target="_blank" rel="noopener noreferrer">support</a>.
-      </p>
+      <button onClick={handleSubmit} disabled={loading}>
+        {loading ? 'Submitting...' : 'Submit'}
+      </button>
+      {error && <div style={{ color: 'red', marginTop: '10px' }}>{error}</div>}
     </div>
   );
 };

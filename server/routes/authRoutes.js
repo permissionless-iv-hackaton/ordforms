@@ -13,11 +13,15 @@ router.get(
   passport.authenticate('github', { failureRedirect: '/' }),
   async (req, res) => {
     const user = req.user;
-    if (user) {
-      await db.collection('users').doc(user.id).set(
-        { username: user.username },
-        { merge: true }
-      );
+    if (user && db) {
+      try {
+        await db.collection('users').doc(user.id).set(
+          { username: user.username },
+          { merge: true }
+        );
+      } catch (error) {
+        console.log('Error saving user to Firebase:', error.message);
+      }
     }
     res.redirect('/success');
   }
