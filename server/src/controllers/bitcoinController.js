@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { db } from '../services/firebaseService';
+// import { Request, Response } from 'express';
+import { db } from '../services/firebaseAdmin';
 import { generateZapriteInvoice } from '../services/zapriteService';
 
-export const linkWallet = async (req: Request, res: Response) => {
+export const linkWallet = async (req, res) => {
   const { userId, pubkey } = req.body;
   try {
     await db.collection('wallets').doc(userId).set({ pubkey });
@@ -12,7 +12,7 @@ export const linkWallet = async (req: Request, res: Response) => {
   }
 };
 
-export const storeOrdinalsAddress = async (req: Request, res: Response) => {
+export const storeOrdinalsAddress = async (req, res) => {
   const { userId, ordAddress } = req.body;
   try {
     await db.collection('ordinals').doc(userId).set({ ordAddress });
@@ -22,7 +22,7 @@ export const storeOrdinalsAddress = async (req: Request, res: Response) => {
   }
 };
 
-export const initiateZapritePayment = async (req: Request, res: Response) => {
+export const initiateZapritePayment = async (req, res) => {
   const { amount, currency, metadata } = req.body;
   try {
     const invoice = await generateZapriteInvoice(amount, currency, metadata);

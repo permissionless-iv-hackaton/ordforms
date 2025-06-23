@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import submissionRoutes from './routes/submissionRoutes';
 import bitcoinRoutes from './routes/bitcoinRoutes';
+import uploadRoutes from './routes/upload';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/submission', submissionRoutes);
 app.use('/api/bitcoin', bitcoinRoutes);
+app.use('/api', uploadRoutes);
 
 app.get('/', (_, res) => res.send('Permissionless Submission Backend Running'));
 
