@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
 import { db } from '../services/firebaseService';
 import { generateZapriteInvoice } from '../services/zapriteService';
+import { createPaypalInvoice } from '../services/paypalService';
+import { estimateCost, inscribeHash } from '../services/ordinalsService';
+import { pushOpReturn } from '../services/opReturnService';
 
 export const linkWallet = async (req: Request, res: Response) => {
   const { userId, pubkey } = req.body;
@@ -31,3 +34,44 @@ export const initiateZapritePayment = async (req: Request, res: Response) => {
     res.status(500).json({ success: false, error: err });
   }
 };
+
+export const initiatePaypalPayment = async (req: Request, res: Response) => {
+  const { amount, currency } = req.body;
+  try {
+    const link = await createPaypalInvoice(amount, currency);
+    res.status(200).json({ success: true, link });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+};
+
+export const getInscriptionCost = async (req: Request, res: Response) => {
+  const { hash } = req.body;
+  try {
+    const cost = await estimateCost(Buffer.from(hash, 'hex'));
+    res.status(200).json({ success: true, cost });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+};
+
+export const inscribeSubmission = async (req: Request, res: Response) => {
+  const { hash, parent } = req.body;
+  try {
+    const order = await inscribeHash(hash, parent);
+    res.status(200).json({ success: true, order });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+};
+
+export const pushOpReturnHash = async (req: Request, res: Response) => {
+  const { hash } = req.body;
+  try {
+    const tx = await pushOpReturn(hash);
+    res.status(200).json({ success: true, tx });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err });
+  }
+};
+

@@ -21,3 +21,4 @@ export const generateZapriteInvoice = async (
   const { data } = await axios.post(url, payload, { headers });
   return data;
 };
+
