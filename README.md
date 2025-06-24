@@ -58,6 +58,27 @@ corresponding WIF key (`INTERNAL_BTC_WIF`) is required for OP_RETURN pushes.
 
 ---
 
+### Docker Image
+The repository includes a `Dockerfile` for building a lightweight image
+compatible with [NodeOps](https://docs.nodeops.network/). The container can run
+an autonomous agent that generates and optionally inscribes signatures. Build
+and run it:
+
+```bash
+docker build -t ordforms .
+docker run -p 3000:3000 ordforms
+```
+
+The container exposes port `3000` and runs the Express server. Set your
+environment variables with `-e` flags or a `.env` file. To have the container
+autonomously generate and inscribe a signature, run:
+
+```bash
+docker run -e SIGNATURE_ENDPOINT=http://localhost:3000/api/signature ordforms npm run agent
+```
+
+---
+
 ## 📬 API Routes
 
 - `/api/submission/verify-voucher`
@@ -70,8 +91,18 @@ corresponding WIF key (`INTERNAL_BTC_WIF`) is required for OP_RETURN pushes.
 - `/api/bitcoin/ordinals/cost`
 - `/api/bitcoin/ordinals/inscribe`
 - `/api/bitcoin/opreturn/push`
+- `/api/signature/:type?format=svg|html&inscribe=true&generative=true&name=Custom`
 - `/api/auth/github`
 - `/api/auth/github/callback`
+
+### Testing the Signature Route
+
+Run `npm run test:signature` to request an example signature and create an
+inscription order via Ordinalsbot. The endpoint supports `generative=true` to
+return HTML that loads [p5.js] via Ordinals recursion from inscription
+`bed725759768159b0868fe0e6c9cd26a4c437f9e0903f70893edad280e35d843i0`. Pass
+`name=OrdForms` to customize the rendered text. Ensure the server is running on
+`localhost:3000` and that your `.env` includes a valid `ORDINALSBOT_API_KEY`.
 
 ---
 

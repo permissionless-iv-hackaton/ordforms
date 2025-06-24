@@ -9,6 +9,7 @@ const authRoutes = require('./routes/authRoutes');
 const submissionRoutes = require('./routes/submissionRoutes');
 const bitcoinRoutes = require('./routes/bitcoinRoutes');
 const uploadRoutes = require('./routes/upload.js');
+const signatureRoutes = require('./routes/signatureRoutes');
 
 
 dotenv.config();
@@ -54,6 +55,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/submission', submissionRoutes);
 app.use('/api/bitcoin', bitcoinRoutes);
 app.use('/api', uploadRoutes);
+app.use('/api/signature', signatureRoutes);
 
 app.get('/', (_, res) => res.send('Permissionless Submission Backend Running'));
 

@@ -8,7 +8,9 @@
     "build": "npm run build:client",
     "dev:client": "webpack serve --config webpack.config.js --mode development",
     "dev:server": "nodemon server/index.js",
-    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\""
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "test:signature": "node tests/signatureRouteTest.js",
+    "agent": "node scripts/autonomousSignature.js"
   },
   "dependencies": {
     "axios": "^1.10.0",
