@@ -1,4 +1,4 @@
-const { Op, DetachedTimestampFile } = require('opentimestamps');
+const { Op, DetachedTimestampFile } = require('javascript-opentimestamps');
 const crypto = require('crypto');
 const fs = require('fs');
 
