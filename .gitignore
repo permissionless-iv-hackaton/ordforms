@@ -3,5 +3,4 @@ dist
 package-lock.json
 .env
 ./server/src/services/serviceAccountKey.json
-webpack.config.json
 AGENTS.md
