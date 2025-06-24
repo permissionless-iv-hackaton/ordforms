@@ -1,12 +1,11 @@
 # 🟠 Permissionless Submission Tool
 
-This is a fullstack application for handling Web3-integrated tender and grant submissions, combining modern UX with Bitcoin + Ordinals tech.
-
+This is a fullstack application for handling Web3-integrated tender and grant submissions, combining modern UX with multichain security including Bitcoin + Ordinals tech and AI templates through NodeOps
 ## 🔧 Tech Stack
 
 - Frontend: React + TypeScript + Webpack + Sass
 - Backend: Node.js (JavaScript) + Express + Firebase + Zaprite + GitHub OAuth
-- Features: Voucher-gated access, resume & project uploads, wallet integration, project hash timestamping, Ordinals logo inscription
+- Features: Voucher-gated access, resume & project uploads, wallet integration, project hash timestamping via Bitcoin OP_RETURN and EVM/IPFS, Ordinals logo inscription AI signature generation
 
 ---
 
@@ -108,11 +107,8 @@ return HTML that loads [p5.js] via Ordinals recursion from inscription
 
 ## 🧠 Future Ideas
 
-- Integrate OpenTimestamps + inscription hashproofs
 - Resume metadata extraction
 - Reviewer/selection dashboard
-- Xverse wallet integration with Ordinals inscriptions
-
 ---
 
 ## ⚖️ License
@@ -122,5 +118,6 @@ The flow is:
 1. `/case` - read the hackathon opportunity.
 2. `/form` - submit personal or corporate data and upload your resume.
 3. `/wallet` - connect Xverse and specify your Ordinals address.
-4. `/timestamp` - push the hash via OP_RETURN.
-5. `/success` - confirmation.
+4. `/signatrue` - create signature inscription for subject
+5. `/timestamp` - push the hash via OP_RETURN.
+6. `/success` - confirmation.
