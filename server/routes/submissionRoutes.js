@@ -8,7 +8,7 @@ const {
 } = require('../controllers/submissionController');
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: '/tmp/uploads/' });
 
 router.post('/verify-voucher', verifyVoucher);
 router.post('/create', upload.single('document'), createSubmission);
