@@ -5,11 +5,10 @@ const { createTimestamp } = require('../services/timestampService');
 const crypto = require('crypto');
 const { estimateCost } = require('../services/ordinalsService');
 
-const VALID_VOUCHER = 'PERMISSIONLESS';
 
 const verifyVoucher = (req, res) => {
   const { code } = req.body;
-  if ((code || '').trim().toLowerCase() === VALID_VOUCHER.toLowerCase()) {
+  if ((code || '').trim().toLowerCase() === process.env.VALID_VOUCHER.toLowerCase()) {
     return res.status(200).json({ valid: true });
   }
   return res.status(401).json({ valid: false, message: 'Invalid voucher' });
