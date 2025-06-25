@@ -20,7 +20,7 @@ npm run dev
 Ensure you set `ZAPRITE_API_KEY`. Firebase credentials are required and can be
 provided through `firebase-adminsdk.json` or the
 `FIREBASE_SERVICE_ACCOUNT` environment variable. For GitHub OAuth, also set
-`GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` and `GITHUB_CALLBACK_URL`.
+`GH_OAUTH_CLIENT_ID`, `GH_OATH_CLIENT_SECRET` and `GH_OATH_CALLBACK_URL`.
 
 ### Frontend
 ```bash
@@ -52,7 +52,7 @@ corresponding WIF key (`INTERNAL_BTC_WIF`) is required for OP_RETURN pushes.
 - Set the following environment variables in Vercel:
   - `FIREBASE_SERVICE_ACCOUNT` – JSON string of your service account
   - `FIREBASE_BUCKET` – Cloud Storage bucket name (optional)
-  - `ZAPRITE_API_KEY`, `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET`, `GITHUB_CALLBACK_URL`
+  - `ZAPRITE_API_KEY`, `GH_OAUTH_CLIENT_ID`, `GH_OATH_CLIENT_SECRET`, `GH_OATH_CALLBACK_URL`
   - `INTERNAL_BTC_WALLET` and any other secrets
 
 ---
