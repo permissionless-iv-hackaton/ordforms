@@ -8,12 +8,8 @@ try {
   if (process.env.FIREBASE_SERVICE_ACCOUNT) {
     serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
   } else {
-    try {
-      serviceAccount = require('./serviceAccountKey.json');
-    } catch (error) {
-      console.log('Firebase credentials not found. Running without Firebase.');
-      serviceAccount = null;
-    }
+    console.log('Firebase credentials not found. Running without Firebase.');
+    serviceAccount = null;
   }
 
   if (serviceAccount && serviceAccount.private_key && serviceAccount.client_email) {
