@@ -29,6 +29,8 @@ if (process.env.GH_OAUTH_CLIENT_ID && process.env.GH_OATH_CLIENT_SECRET) {
       }
     )
   );
+} else {
+  console.log('GitHub OAuth not configured - skipping GitHub authentication');
 }
 
 passport.serializeUser((user, done) => {

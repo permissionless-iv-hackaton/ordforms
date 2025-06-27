@@ -10,8 +10,13 @@ router.get('/github', passport.authenticate('github', { scope: ['read:user'] }))
 
 router.get(
   '/github/callback',
+  (req, res, next) => {
+    console.log('GitHub callback route hit:', req.url);
+    next();
+  },
   passport.authenticate('github', { failureRedirect: '/' }),
   async (req, res) => {
+    console.log('GitHub authentication successful, user:', req.user);
     const user = req.user;
     if (user && db) {
       try {
