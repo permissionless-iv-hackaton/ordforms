@@ -1,27 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+interface FormData {
+  user: {
+    name: string;
+    surname: string;
+    username: string;
+    dob: string;
+    nationality: string;
+    gender: string;
+  };
+  githubUser: {
+    name: string;
+    surname: string;
+    username: string;
+    avatar: string;
+    email: string;
+  };
+  fileName: string;
+}
 
 const WalletPage: React.FC = () => {
-  const [params] = useSearchParams();
   const navigate = useNavigate();
-  const id = params.get('id');
+  const [formData, setFormData] = useState<FormData | null>(null);
   const [cost, setCost] = useState<number>();
   const [hash, setHash] = useState('');
   const [wallet, setWallet] = useState('');
   const [ordAddress, setOrdAddress] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const load = async () => {
-      if (!id) return;
-      const { data } = await axios.get<{ data: { cost: number; contentHash: string } }>(
-        `/api/submission/${id}`
-      );
-      setCost(data.data.cost);
-      setHash(data.data.contentHash);
-    };
-    load();
-  }, [id]);
+    // Get form data from sessionStorage
+    const storedFormData = sessionStorage.getItem('formData');
+    if (!storedFormData) {
+      // Redirect back to form if no data
+      navigate('/form');
+      return;
+    }
+    
+    try {
+      const parsedData = JSON.parse(storedFormData);
+      setFormData(parsedData);
+    } catch (error) {
+      console.error('Error parsing form data:', error);
+      navigate('/form');
+    }
+  }, [navigate]);
 
   const connect = async () => {
     try {
@@ -30,30 +55,58 @@ const WalletPage: React.FC = () => {
       const resp = await provider.request('getAddresses');
       const addr = resp.addresses[0].address;
       setWallet(addr);
-      await axios.post('/api/bitcoin/wallet/link', { userId: id, pubkey: addr });
     } catch {
       alert('Wallet connect failed');
     }
   };
 
-  const storeOrdinals = async () => {
-    if (!ordAddress || !id) return;
-    await axios.post('/api/bitcoin/ordinals/store', { userId: id, ordAddress });
-    navigate(`/timestamp?id=${id}`);
+  const submitForm = async () => {
+    if (!formData || !ordAddress) return;
+    
+    setLoading(true);
+    try {
+      // Here you would submit the form data to your backend
+      // For now, we'll just navigate to the next step
+      console.log('Submitting form data:', formData);
+      console.log('Ordinals address:', ordAddress);
+      
+      // Navigate to timestamp page (you can add an ID here if needed)
+      navigate('/timestamp');
+    } catch (error) {
+      console.error('Form submission error:', error);
+      alert('Form submission failed');
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (!formData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="form-page">
-      <h1>Connect Wallet</h1>
-      {cost && <p>Inscription Cost: {cost} sats</p>}
+      <h1>Connect Xverse Wallet</h1>
+      <p>Welcome, {formData.user.name} {formData.user.surname}!</p>
+      <p>Document: {formData.fileName}</p>
+      
       <button onClick={connect}>Connect Xverse</button>
       {wallet && <p>Wallet: {wallet}</p>}
+      
       <input
         value={ordAddress}
         onChange={(e) => setOrdAddress(e.target.value)}
         placeholder="Ordinals address"
       />
-      <button onClick={storeOrdinals}>Proceed to Timestamp</button>
+      
+      <button 
+        onClick={submitForm} 
+        disabled={!ordAddress || loading}
+        className="submit-button"
+      >
+        {loading ? 'Processing...' : 'Proceed to Timestamp'}
+      </button>
+      
       <p>
         Need an inscription? Follow the{' '}
         <a href="https://github.com/ordinalsbot/ordinals-template-app" target="_blank" rel="noopener noreferrer">

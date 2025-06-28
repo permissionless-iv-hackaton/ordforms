@@ -1,6 +1,6 @@
-@import './main.scss'; // optional: only if you want to include shared styles
+@use './main.scss' as *; // optional: only if you want to include shared styles
 
-.form-container {
+.form-page {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,34 +11,164 @@
   border-radius: 20px;
   box-shadow: 0 0 10px #ffa500;
 
-  label {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
+  h1 {
     margin-bottom: 1rem;
-    font-weight: bold;
+    color: #ffa500;
+  }
+
+  .required-note {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .github-login-section {
+    background: #f0f8ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #d1ecf1;
+
+    .github-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+
+      .github-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+
+      .github-details {
+        .github-username {
+          font-weight: bold;
+        }
+
+        .github-email {
+          font-size: 14px;
+          color: #666;
+        }
+      }
+    }
+
+    .github-success-message {
+      font-size: 14px;
+      color: #28a745;
+    }
+  }
+
+  .github-login-button {
+    background: #24292e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 20px;
   }
 
   input,
   select {
-    width: 100%;
+    width: 80%;
     padding: 0.75rem;
     margin-top: 0.5rem;
-    border: none;
+    margin-bottom: 1rem;
+    border: 2px solid #ddd;
     border-radius: 8px;
     background: #111;
     color: #ffa500;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+
+    &.error {
+      border-color: #ff6b6b;
+    }
+
+    &.valid {
+      border-color: #28a745;
+    }
   }
 
-  button {
-    align-self: center;
-    padding: 0.75rem 1.5rem;
-    margin-top: 1rem;
-    background: #ffa500;
-    color: #111;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+  // Ensure select elements have consistent styling with inputs
+  select {
+    width: 80%;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffa500' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px;
+    padding-right: 2.5rem;
   }
+
+  input[type="file"] {
+    padding: 0.5rem;
+    background: #333;
+    color: #ffa500;
+    border: 2px dashed #ffa500;
+    cursor: pointer;
+
+    &::-webkit-file-upload-button {
+      background: #ffa500;
+      color: #111;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 1rem;
+    }
+  }
+
+  .form-completion-status {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+
+    &.complete {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    &.incomplete {
+      background: #f8d7da;
+      color: #721c24;
+    }
+  }
+
+  .next-page-button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+
+    &.incomplete {
+      background: #ff6b6b; // Strawberry red
+      color: white;
+      cursor: pointer;
+    }
+
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled):not(.incomplete):hover {
+      background: #0056b3;
+    }
+
+    &.incomplete:hover {
+      background: #ff5252; // Darker strawberry red on hover
+    }
+  }
+
 }
+
