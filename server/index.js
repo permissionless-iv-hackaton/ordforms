@@ -16,13 +16,27 @@ dotenv.config();
 
 const app = express();
 
-if (process.env.GH_OAUTH_CLIENT_ID && process.env.GH_OATH_CLIENT_SECRET) {
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+const clientID = isDevelopment 
+  ? process.env.GH_OAUTH_CLIENT_ID_DEV 
+  : process.env.GH_OAUTH_CLIENT_ID;
+
+const clientSecret = isDevelopment 
+  ? process.env.GH_OATH_CLIENT_SECRET_DEV 
+  : process.env.GH_OATH_CLIENT_SECRET;
+
+const callbackURL = isDevelopment
+  ? process.env.GH_OATH_CALLBACK_URL_DEV
+  : process.env.GH_OATH_CALLBACK_URL;
+
+if (clientID && clientSecret) {
   passport.use(
     new GitHubStrategy(
       {
-        clientID: process.env.GH_OAUTH_CLIENT_ID,
-        clientSecret: process.env.GH_OATH_CLIENT_SECRET,
-        callbackURL: process.env.GH_OATH_CALLBACK_URL || '/api/auth/github/callback'
+        clientID,
+        clientSecret,
+        callbackURL
       },
       (_accessToken, _refreshToken, profile, done) => {
         done(null, profile);

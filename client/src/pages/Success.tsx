@@ -6,7 +6,7 @@ const Success: React.FC = () => (
     <p>Thank you for participating in the Permissionless Tender Program.</p>
     <p>
       Need help with inscriptions? Visit the{' '}
-      <a href="https://support.ordinalsbot.com" target="_blank" rel="noopener noreferrer">
+      <a href="https://ordinalsbot.com/faq" target="_blank" rel="noopener noreferrer">
         OrdinalsBot Support Center
       </a>
       .
