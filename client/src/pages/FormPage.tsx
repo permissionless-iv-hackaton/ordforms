@@ -238,13 +238,16 @@ const FormPage: React.FC = () => {
         className={!formState.user.username ? 'error' : 'valid'}
       />
       
-      <input 
-        type="date" 
-        value={formState.user.dob} 
-        onChange={(e) => updateUser('dob', e.target.value)} 
-        required
-        className={!formState.user.dob ? 'error' : 'valid'}
-      />
+      <div className="dob-input-container">
+        <input 
+          type="date" 
+          value={formState.user.dob} 
+          onChange={(e) => updateUser('dob', e.target.value)} 
+          required
+          className={!formState.user.dob ? 'error' : 'valid'}
+        />
+        <span className="dob-icon">📅</span>
+      </div>
       
       <select 
         value={formState.user.nationality} 
