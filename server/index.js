@@ -23,12 +23,12 @@ const clientID = isDevelopment
   : process.env.GH_OAUTH_CLIENT_ID;
 
 const clientSecret = isDevelopment 
-  ? process.env.GH_OATH_CLIENT_SECRET_DEV 
-  : process.env.GH_OATH_CLIENT_SECRET;
+  ? process.env.GH_OAUTH_CLIENT_SECRET_DEV 
+  : process.env.GH_OAUTH_CLIENT_SECRET;
 
 const callbackURL = isDevelopment
-  ? process.env.GH_OATH_CALLBACK_URL_DEV
-  : process.env.GH_OATH_CALLBACK_URL;
+  ? process.env.GH_OAUTH_CALLBACK_URL_DEV
+  : process.env.GH_OAUTH_CALLBACK_URL;
 
 if (clientID && clientSecret) {
   passport.use(
