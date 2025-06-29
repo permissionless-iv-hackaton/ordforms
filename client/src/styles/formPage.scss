@@ -91,6 +91,32 @@
     }
   }
 
+  // Hide LastPass extension icons
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    &::-webkit-credentials-auto-fill-button {
+      display: none !important;
+    }
+    
+    &::-webkit-contacts-auto-fill-button {
+      display: none !important;
+    }
+    
+    &::-webkit-strong-password-auto-fill-button {
+      display: none !important;
+    }
+  }
+
+  // Additional LastPass hiding
+  .lastpass-wrapper {
+    display: none !important;
+  }
+  
+  .lastpass-icon {
+    display: none !important;
+  }
+
   // Ensure select elements have consistent styling with inputs
   select {
     width: 80%;
@@ -117,6 +143,46 @@
       border-radius: 4px;
       cursor: pointer;
       margin-right: 1rem;
+    }
+  }
+
+  .dob-input-container {
+    position: relative;
+    width: 83%;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    
+    input[type="date"] {
+      width: 100%;
+      padding: 0.75rem;
+      padding-right: 2rem; // Make room for the icon
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      background: #111;
+      color: #ffa500;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+      
+      &.error {
+        border-color: #ff6b6b;
+      }
+      
+      &.valid {
+        border-color: #28a745;
+      }
+    }
+    
+    .dob-icon {
+      position: absolute;
+      right: 2rem;
+      top: 43%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      color: #ffa500;
+      pointer-events: none; // Don't interfere with input clicks
+      z-index: 1;
     }
   }
 
