@@ -55,7 +55,12 @@ passport.deserializeUser((obj, done) => {
   done(null, obj);
 });
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:8080' 
+    : ['https://ordforms-theta.vercel.app', 'https://ordforms.vercel.app'],
+  credentials: true
+}));
 app.use(express.json());
 app.use(
   session({
